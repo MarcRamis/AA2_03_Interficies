@@ -27,6 +27,7 @@ public class FirebaseLoginService : IFirebaseLoginService
             }
             eventDispatcher.Dispatch(new LogConnectionEvent(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser != null));
             Debug.Log("Firebase inicializado");
+            Debug.Log(GetID());
         });
     }
 

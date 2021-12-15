@@ -19,9 +19,8 @@ public class FirebaseStoreService : IFirebaseStoreService
         
         var currentTask = new TaskStore(taskEntity.Id, taskEntity.Text);
 
-        DocumentReference docRef = db.Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
-            .Collection("tasks").Document(currentTask.Id.ToString());
-        docRef.SetAsync(taskEntity.Text).ContinueWithOnMainThread(task =>
+        DocumentReference docRef = db.Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId).Collection("tasks").Document(currentTask.Id.ToString());
+        docRef.SetAsync(currentTask.Text).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -46,7 +45,7 @@ public class FirebaseStoreService : IFirebaseStoreService
     {
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
 
-        CollectionReference usersRef = db.Collection("tasks");
+        CollectionReference usersRef = db.Collection("users");
         usersRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             QuerySnapshot snapshot = task.Result;
