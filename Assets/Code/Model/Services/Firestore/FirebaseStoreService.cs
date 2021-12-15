@@ -18,14 +18,16 @@ public class FirebaseStoreService : IFirebaseStoreService
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
         
         var currentTask = new TaskStore(taskEntity.Id, taskEntity.Text);
+        
+        DocumentReference docRef = db
+            .Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
+            .Collection("tasks").Document(currentTask.Id.ToString());
 
-        DocumentReference docRef = db.Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId).Collection("tasks").Document(currentTask.Id.ToString());
-        docRef.SetAsync(currentTask.Text).ContinueWithOnMainThread(task =>
+        docRef.SetAsync(currentTask).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
                 Debug.Log("Added Data");
-               //LoadData();
             }
             else
                 Debug.LogError(task.Exception);
@@ -35,10 +37,9 @@ public class FirebaseStoreService : IFirebaseStoreService
     {
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
 
-        DocumentReference cityRef = db.Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
+        DocumentReference docRef = db.Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
             .Collection("tasks").Document(id.ToString());
-        
-        cityRef.DeleteAsync();
+        docRef.DeleteAsync();
     }
 
     private void LoadData()
