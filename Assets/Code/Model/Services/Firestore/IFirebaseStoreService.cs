@@ -2,6 +2,6 @@
 
 public interface IFirebaseStoreService
 {
-    TaskEntity Create(string text);
+    void Save(TaskEntity task);
     void Delete(int id);
 }

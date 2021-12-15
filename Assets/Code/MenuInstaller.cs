@@ -18,8 +18,8 @@ namespace Code
 
         [SerializeField] private ToDoPanelView _toDoPanelPrefab; 
         [SerializeField] private TaskPanelView _taskPanelPrefab;
+        
         private LoadAllTasksUseCase _loadAllTasksUseCase;
-
         private FirebaseLoginService _firebaseLoginService;
 
         private List<IDisposable> _disposables = new List<IDisposable>();
@@ -42,11 +42,12 @@ namespace Code
             var eventDispatcher = new EventDispatcherService();
             _firebaseLoginService = new FirebaseLoginService(eventDispatcher);
             _firebaseLoginService.Init();
+            var firebaseStoreService = new FirebaseStoreService(eventDispatcher);
             
             //-- USE CASES --//
             var doLoginUseCase = new DoLoginUseCase(_firebaseLoginService, eventDispatcher);
-            var createTaskUseCase = new CreateTaskUseCase(taskRepository, eventDispatcher);
-            var deleteTaskUseCase = new DeleteTaskUseCase(taskRepository, eventDispatcher);
+            var createTaskUseCase = new CreateTaskUseCase(taskRepository, eventDispatcher, firebaseStoreService);
+            var deleteTaskUseCase = new DeleteTaskUseCase(taskRepository, eventDispatcher, firebaseStoreService);
 
             //-- CONTROLLERS --//
             new TaskPanelController(taskPanelViewModel, createTaskUseCase)

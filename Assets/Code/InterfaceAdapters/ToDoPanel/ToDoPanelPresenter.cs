@@ -22,7 +22,6 @@ namespace Code.InterfaceAdapters.ToDoPanel
 
             _eventDispatcherService.Subscribe<NewTaskCreatedEvent>(OnNewTaskCreated);
             _eventDispatcherService.Subscribe<TaskDeletedEvent>(OnTaskDeleted);
-            //_eventDispatcherService.Subscribe<LogEvent>(OnTaskDeleted);
         }
 
         public override void Dispose()

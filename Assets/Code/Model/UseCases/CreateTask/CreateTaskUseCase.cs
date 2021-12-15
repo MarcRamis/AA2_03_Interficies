@@ -1,4 +1,6 @@
 using Code.Model.Repositories;
+using UnityEngine;
+using Code.Model;
 
 namespace Code.Model.UseCases.CreateTask
 {
@@ -6,12 +8,15 @@ namespace Code.Model.UseCases.CreateTask
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IEventDispatcherService _eventDispatcherService;
+        private readonly IFirebaseStoreService _firebaseStoreService;
 
         public CreateTaskUseCase(ITaskRepository taskRepository,
-            IEventDispatcherService eventDispatcherService)
+            IEventDispatcherService eventDispatcherService,
+            IFirebaseStoreService firebaseStoreService)
         {
             _taskRepository = taskRepository;
             _eventDispatcherService = eventDispatcherService;
+            _firebaseStoreService = firebaseStoreService;
         }
 
         public void Create(string taskText)
@@ -21,6 +26,9 @@ namespace Code.Model.UseCases.CreateTask
 
             var newTaskEvent = new NewTaskCreatedEvent(taskEntity.Id, taskEntity.Text);
             _eventDispatcherService.Dispatch<NewTaskCreatedEvent>(newTaskEvent);
+
+            // Guardar en Firestore
+            _firebaseStoreService.Save(taskEntity);
         }
     }
 }
