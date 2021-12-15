@@ -20,28 +20,41 @@ namespace Code
         [SerializeField] private TaskPanelView _taskPanelPrefab;
         private LoadAllTasksUseCase _loadAllTasksUseCase;
 
+        private FirebaseLoginService _firebaseLoginService;
+
         private List<IDisposable> _disposables = new List<IDisposable>();
         private void Awake()
         {
+            //-- VIEWS --//
             var toDoPanelView = Instantiate(_toDoPanelPrefab, _canvasParent);
             var taskPanelView = Instantiate(_taskPanelPrefab, _canvasParent);
 
+            //-- VIEW MODELS --//
             var taskPanelViewModel = new TaskPanelViewModel()
                 .AddTo(_disposables);
             var toDoPanelViewModel = new ToDoPanelViewModel()
                 .AddTo(_disposables);
-
-
             taskPanelView.SetViewModel(taskPanelViewModel);
             toDoPanelView.SetViewModel(toDoPanelViewModel);
+
+            //-- SERVICES --//
             var taskRepository = GetTaskRepository();
             var eventDispatcher = new EventDispatcherService();
+            _firebaseLoginService = new FirebaseLoginService(eventDispatcher);
+            _firebaseLoginService.Init();
+            
+            //-- USE CASES --//
+            var doLoginUseCase = new DoLoginUseCase(_firebaseLoginService, eventDispatcher);
             var createTaskUseCase = new CreateTaskUseCase(taskRepository, eventDispatcher);
             var deleteTaskUseCase = new DeleteTaskUseCase(taskRepository, eventDispatcher);
+
+            //-- CONTROLLERS --//
             new TaskPanelController(taskPanelViewModel, createTaskUseCase)
                 .AddTo(_disposables);
             new ToDoPanelController(toDoPanelViewModel, taskPanelViewModel)
                 .AddTo(_disposables);
+            
+            //-- PRESENTERS --//
             new ToDoPanelPresenter(toDoPanelViewModel, deleteTaskUseCase, eventDispatcher)
                 .AddTo(_disposables);
 

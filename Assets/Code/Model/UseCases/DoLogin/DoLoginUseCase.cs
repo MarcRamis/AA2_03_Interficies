@@ -1,35 +1,37 @@
 using System;
 using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 
 public class DoLoginUseCase : IDoLoginUseCase, IDisposable
 {
-    private readonly IFirebaseLoginService firebaseLoginService;
-    private readonly IEventDispatcherService eventDispatcherService;
+    private readonly IFirebaseLoginService _firebaseLoginService;
+    private readonly IEventDispatcherService _eventDispatcherService;
 
 
-    public DoLoginUseCase(IFirebaseLoginService _firebaseLoginService, IEventDispatcherService _eventDispatcherService)
+    public DoLoginUseCase(IFirebaseLoginService firebaseLoginService, IEventDispatcherService eventDispatcherService)
     {
-        firebaseLoginService = _firebaseLoginService;
-        eventDispatcherService = _eventDispatcherService;
-        eventDispatcherService.Subscribe<LogConnectionEvent>(AlreadyConnected);
+        _firebaseLoginService = firebaseLoginService;
+        _eventDispatcherService = eventDispatcherService;
+        
+        _eventDispatcherService.Subscribe<LogConnectionEvent>(AlreadyConnected);
     }
 
     public void Login()
     {
-        firebaseLoginService.Login();
+        _firebaseLoginService.Login();
     }
 
     public void AlreadyConnected(LogConnectionEvent data)
     {
-        if (data.isConnected)
+        if (!data.isConnected)
         {
-            eventDispatcherService.Dispatch(new LogEvent(firebaseLoginService.GetID()));
+            _firebaseLoginService.Login();
         }
     }
 
     public void Dispose()
     {
-        eventDispatcherService.Unsubscribe<LogConnectionEvent>(AlreadyConnected);
+        _eventDispatcherService.Unsubscribe<LogConnectionEvent>(AlreadyConnected);
     }
 }

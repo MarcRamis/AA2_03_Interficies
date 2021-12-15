@@ -1,5 +1,6 @@
 using Firebase.Firestore;
 using Firebase.Extensions;
+using UnityEngine;
 
 public class FirebaseLoginService : IFirebaseLoginService
 {
@@ -25,6 +26,7 @@ public class FirebaseLoginService : IFirebaseLoginService
                 return;
             }
             eventDispatcher.Dispatch(new LogConnectionEvent(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser != null));
+            Debug.Log("Firebase inicializado");
         });
     }
 
@@ -39,7 +41,7 @@ public class FirebaseLoginService : IFirebaseLoginService
             }
 
             Firebase.Auth.FirebaseUser newUser = task.Result;
-            eventDispatcher.Dispatch(new LogEvent(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId));
+            Debug.Log("Usuario anónimo creeado"); //eventDispatcher.Dispatch(new LogEvent(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId));
         });
     }
 
