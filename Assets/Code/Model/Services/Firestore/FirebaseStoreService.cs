@@ -13,15 +13,15 @@ public class FirebaseStoreService : IFirebaseStoreService
         eventDispatcher = _eventDispatcher;
     }
 
-    public void Save(TaskEntity task)
+    public void Save(TaskEntity taskEntity)
     {
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
         
-        var currentTask = new TaskStore(task.Id, task.Text);
+        var currentTask = new TaskStore(taskEntity.Id, taskEntity.Text);
 
-        DocumentReference docRef = db.Collection("tasks").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId);
-
-        docRef.SetAsync(currentTask).ContinueWithOnMainThread(task =>
+        DocumentReference docRef = db.Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
+            .Collection("tasks").Document(currentTask.Id.ToString());
+        docRef.SetAsync(taskEntity.Text).ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
@@ -34,7 +34,12 @@ public class FirebaseStoreService : IFirebaseStoreService
     }
     public void Delete(int id)
     {
+        FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
 
+        DocumentReference cityRef = db.Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
+            .Collection("tasks").Document(id.ToString());
+        
+        cityRef.DeleteAsync();
     }
 
     private void LoadData()
