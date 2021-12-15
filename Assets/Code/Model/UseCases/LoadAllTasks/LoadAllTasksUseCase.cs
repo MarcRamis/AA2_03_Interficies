@@ -19,6 +19,8 @@ namespace Code.Model.UseCases.LoadAllTasks
             _taskRepository = taskRepository;
             _eventDispatcherService = eventDispatcherService;
             _storeService = storeService;
+
+            eventDispatcherService.Subscribe<SaveTaskEvent>(SaveTask);
         }
 
         public void GetAll()
@@ -34,6 +36,10 @@ namespace Code.Model.UseCases.LoadAllTasks
             {
                 _storeService.LoadAll();
             }
+        }
+        private void SaveTask(SaveTaskEvent data)
+        {
+            _taskRepository.Create(data.Text);
         }
 
         public IEnumerator GetTasks(float time)

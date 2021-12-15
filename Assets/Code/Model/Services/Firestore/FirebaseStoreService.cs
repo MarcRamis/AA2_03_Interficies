@@ -61,6 +61,7 @@ public class FirebaseStoreService : IFirebaseStoreService
                 
                 var eventData = new NewTaskCreatedEvent(int.Parse(document.Id.ToString()), currentText.Text);
                 eventDispatcher.Dispatch<NewTaskCreatedEvent>(eventData);
+                eventDispatcher.Dispatch<SaveTaskEvent>(new SaveTaskEvent(eventData.Text));
             }
         });
 
