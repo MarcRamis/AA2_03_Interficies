@@ -1,5 +1,8 @@
 ﻿using Code.Model.Repositories;
 using Code.Model.UseCases.CreateTask;
+using System;
+using UnityEngine;
+using System.Collections;
 
 namespace Code.Model.UseCases.LoadAllTasks
 {
@@ -7,12 +10,15 @@ namespace Code.Model.UseCases.LoadAllTasks
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IEventDispatcherService _eventDispatcherService;
+        private readonly IFirebaseStoreService _storeService;
 
         public LoadAllTasksUseCase(ITaskRepository taskRepository,
-            IEventDispatcherService eventDispatcherService)
+            IEventDispatcherService eventDispatcherService,
+            IFirebaseStoreService storeService)
         {
             _taskRepository = taskRepository;
             _eventDispatcherService = eventDispatcherService;
+            _storeService = storeService;
         }
 
         public void GetAll()
@@ -23,6 +29,17 @@ namespace Code.Model.UseCases.LoadAllTasks
                 var evetData = new NewTaskCreatedEvent(task.Id, task.Text);
                 _eventDispatcherService.Dispatch<NewTaskCreatedEvent>(evetData);
             }
+
+            if (tasks.Count == 0)
+            {
+                _storeService.LoadAll();
+            }
+        }
+
+        public IEnumerator GetTasks(float time)
+        {
+            yield return new WaitForSeconds(time);
+            GetAll();
         }
     }
 }

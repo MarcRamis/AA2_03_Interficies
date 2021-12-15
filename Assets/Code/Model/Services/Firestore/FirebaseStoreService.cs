@@ -2,7 +2,9 @@
 using Firebase.Firestore;
 using Code.Model;
 using UnityEngine;
-
+using System.Collections.Generic;
+using System;
+using Code.Model.UseCases.CreateTask;
 
 public class FirebaseStoreService : IFirebaseStoreService
 {
@@ -16,7 +18,6 @@ public class FirebaseStoreService : IFirebaseStoreService
     public void Save(TaskEntity taskEntity)
     {
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
-        
         var currentTask = new TaskStore(taskEntity.Id, taskEntity.Text);
         
         DocumentReference docRef = db
@@ -37,23 +38,31 @@ public class FirebaseStoreService : IFirebaseStoreService
     {
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
 
-        DocumentReference docRef = db.Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
+        DocumentReference docRef = db
+            .Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
             .Collection("tasks").Document(id.ToString());
         docRef.DeleteAsync();
     }
 
-    private void LoadData()
+    public void LoadAll()
     {
         FirebaseFirestore db = FirebaseFirestore.DefaultInstance;
+        
+        CollectionReference docRef = db
+            .Collection("users").Document(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId)
+            .Collection("tasks");
 
-        CollectionReference usersRef = db.Collection("users");
-        usersRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        docRef.GetSnapshotAsync().ContinueWithOnMainThread(task =>
         {
             QuerySnapshot snapshot = task.Result;
             foreach (DocumentSnapshot document in snapshot.Documents)
             {
-                var user = document.ConvertTo<TaskStore>();
+                var currentText = document.ConvertTo<TextStore>();
+                
+                var eventData = new NewTaskCreatedEvent(int.Parse(document.Id.ToString()), currentText.Text);
+                eventDispatcher.Dispatch<NewTaskCreatedEvent>(eventData);
             }
         });
+
     }
 }

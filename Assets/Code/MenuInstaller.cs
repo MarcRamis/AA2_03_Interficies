@@ -41,7 +41,6 @@ namespace Code
             var taskRepository = GetTaskRepository();
             var eventDispatcher = new EventDispatcherService();
             _firebaseLoginService = new FirebaseLoginService(eventDispatcher);
-            _firebaseLoginService.Init();
             var firebaseStoreService = new FirebaseStoreService(eventDispatcher);
             
             //-- USE CASES --//
@@ -59,7 +58,7 @@ namespace Code
             new ToDoPanelPresenter(toDoPanelViewModel, deleteTaskUseCase, eventDispatcher)
                 .AddTo(_disposables);
 
-            _loadAllTasksUseCase = new LoadAllTasksUseCase(taskRepository, eventDispatcher);
+            _loadAllTasksUseCase = new LoadAllTasksUseCase(taskRepository, eventDispatcher, firebaseStoreService);
         }
 
         private void OnDestroy()
@@ -72,7 +71,8 @@ namespace Code
 
         private void Start()
         {
-            _loadAllTasksUseCase.GetAll();
+            _firebaseLoginService.Init();
+            StartCoroutine(_loadAllTasksUseCase.GetTasks(1f));
         }
 
         private static ITaskRepository GetTaskRepository()
