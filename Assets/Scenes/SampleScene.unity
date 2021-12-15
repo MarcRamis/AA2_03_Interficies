@@ -232,12 +232,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 603810965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e0347630173c284b99ed0157e9d090e, type: 3}
+  m_Script: {fileID: 11500000, guid: 60a3d8269543c1f41be39a3991348f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasParent: {fileID: 1803643560}
-  _toDoPanelPrefab: {fileID: 5754361609490599614, guid: 53bb087eb3f1f0542829fe2f205dfd91, type: 3}
-  _taskPanelPrefab: {fileID: 3582176763961427730, guid: 54f93a2b4e923154e8e08ec2561135b5, type: 3}
+  _toDoPanelPrefab: {fileID: 6170680237038826811, guid: be513d31307b5244cb01224206593d13, type: 3}
+  _taskPanelPrefab: {fileID: 8556237155891069355, guid: 3f2f113dc4f22214eab7bd07b3f8ce3e, type: 3}
 --- !u!4 &603810967
 Transform:
   m_ObjectHideFlags: 0

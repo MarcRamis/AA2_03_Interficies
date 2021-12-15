@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7940714690086990159}
   - component: {fileID: 7925643501928566782}
-  - component: {fileID: 5754361609490599614}
+  - component: {fileID: 6170680237038826811}
   m_Layer: 5
   m_Name: ToDoPanel
   m_TagString: Untagged
@@ -47,7 +47,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5701523868962183669}
   m_CullTransparentMesh: 1
---- !u!114 &5754361609490599614
+--- !u!114 &6170680237038826811
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,10 +56,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5701523868962183669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b87a2298df553c94d9e0f4253b4aa7e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 61f7c4c377898244da6771d97fc74927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _taskItemViewPrefab: {fileID: 2598381035221367268, guid: 6caa4af01da75094da611236f793e903, type: 3}
+  _taskItemViewPrefab: {fileID: 5967251095545804660, guid: 220508c39d402ad4da6c254610df3a0a, type: 3}
   _taskItemContainer: {fileID: 7239683983017579669}
   _addTaskButton: {fileID: 7239683982992901221}
 --- !u!1 &7239683982641853221
@@ -417,7 +417,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00014368512}
+  m_AnchoredPosition: {x: 0, y: 0.00041703795}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7239683983017579668
@@ -513,8 +513,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Add Task
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 15708a6b10586ae4f87da8457d8a3c34, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 15708a6b10586ae4f87da8457d8a3c34, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 22cd7526b61a7e54b941797da12f041d, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 22cd7526b61a7e54b941797da12f041d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
