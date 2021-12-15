@@ -6,7 +6,6 @@ using Code.Model.Repositories;
 using Code.Model.UseCases.CreateTask;
 using Code.Model.UseCases.DeleteTask;
 using Code.Model.UseCases.LoadAllTasks;
-using Code.Utils;
 using Code.Views;
 using UniRx;
 using UnityEngine;

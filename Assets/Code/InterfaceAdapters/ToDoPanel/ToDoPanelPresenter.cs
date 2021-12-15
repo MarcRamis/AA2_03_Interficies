@@ -2,7 +2,6 @@ using System.Linq;
 using Code.InterfaceAdapters.TaskItem;
 using Code.Model.UseCases.CreateTask;
 using Code.Model.UseCases.DeleteTask;
-using Code.Utils;
 using UniRx;
 
 namespace Code.InterfaceAdapters.ToDoPanel

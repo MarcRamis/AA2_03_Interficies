@@ -1,6 +1,5 @@
 ﻿using Code.Model.Repositories;
 using Code.Model.UseCases.CreateTask;
-using Code.Utils;
 
 namespace Code.Model.UseCases.LoadAllTasks
 {

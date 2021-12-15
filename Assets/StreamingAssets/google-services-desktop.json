@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "361443255831",
+    "project_id": "aa2-03-interficies",
+    "storage_bucket": "aa2-03-interficies.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361443255831:android:ed27912d1fefdb30d11e52",
+        "android_client_info": {
+          "package_name": "aa203.interficies.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "361443255831-m39i61kcovlc4j7iujnks7mbrciicltc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgBSfWC6Yk_7pU8qREdhy_LKgoMTjy6Ew"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "361443255831-m39i61kcovlc4j7iujnks7mbrciicltc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,45 +1,42 @@
 using System;
 using System.Collections.Generic;
 
-namespace Code.Utils
+public class EventDispatcherService : IEventDispatcherService
 {
-    public class EventDispatcherService : IEventDispatcherService
+    private readonly Dictionary<Type, dynamic> _events;
+
+    public EventDispatcherService()
     {
-        private readonly Dictionary<Type, dynamic> _events;
+        _events = new Dictionary<Type, dynamic>();
+    }
 
-        public EventDispatcherService()
+    public void Subscribe<T>(Action<T> callback)
+    {
+        var type = typeof(T);
+        if (!_events.ContainsKey(type))
         {
-            _events = new Dictionary<Type, dynamic>();
+            _events.Add(type, null);
         }
 
-        public void Subscribe<T>(Action<T> callback)
-        {
-            var type = typeof(T);
-            if (!_events.ContainsKey(type))
-            {
-                _events.Add(type, null);
-            }
+        _events[type] += callback;
+    }
 
-            _events[type] += callback;
+    public void Unsubscribe<T>(Action<T> callback)
+    {
+        var type = typeof(T);
+        if (_events.ContainsKey(type))
+        {
+            _events[type] -= callback;
         }
+    }
 
-        public void Unsubscribe<T>(Action<T> callback)
+    public void Dispatch<T>(T arg)
+    {
+        var type = typeof(T);
+        if (_events.ContainsKey(type))
         {
-            var type = typeof(T);
-            if (_events.ContainsKey(type))
-            {
-                _events[type] -= callback;
-            }
-        }
-
-        public void Dispatch<T>(T arg)
-        {
-            var type = typeof(T);
-            if (_events.ContainsKey(type))
-            {
-                var callbakcs = _events[type];
-                callbakcs(arg);
-            }                  
+            var callbakcs = _events[type];
+            callbakcs(arg);
         }
     }
 }
