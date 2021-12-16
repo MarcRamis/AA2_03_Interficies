@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace Code.Model.UseCases.LoadAllTasks
 {
-    public class LoadAllTasksUseCase : ILoadAllTasksUseCase
+    public class LoadAllTasksUseCase : ILoadAllTasksUseCase, IDisposable
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IEventDispatcherService _eventDispatcherService;
@@ -46,6 +46,10 @@ namespace Code.Model.UseCases.LoadAllTasks
         {
             yield return new WaitForSeconds(time);
             GetAll();
+        }
+        public void Dispose()
+        {
+            _eventDispatcherService.Unsubscribe<SaveTaskEvent>(SaveTask);
         }
     }
 }

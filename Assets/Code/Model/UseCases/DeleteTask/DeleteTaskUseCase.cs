@@ -1,8 +1,9 @@
 ﻿using Code.Model.Repositories;
+using System;
 
 namespace Code.Model.UseCases.DeleteTask
 {
-    public class DeleteTaskUseCase : IDeleteTaskUseCase
+    public class DeleteTaskUseCase : IDeleteTaskUseCase, IDisposable
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IEventDispatcherService _eventDispatcherService;
@@ -26,6 +27,10 @@ namespace Code.Model.UseCases.DeleteTask
 
             // Borrar en firestore
             _firebaseStoreService.Delete(id);
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

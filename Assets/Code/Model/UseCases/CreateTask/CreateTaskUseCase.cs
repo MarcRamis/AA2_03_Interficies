@@ -1,10 +1,11 @@
 using Code.Model.Repositories;
 using UnityEngine;
+using System;
 using Code.Model;
 
 namespace Code.Model.UseCases.CreateTask
 {
-    public class CreateTaskUseCase : ICreateTaskUseCase
+    public class CreateTaskUseCase : ICreateTaskUseCase, IDisposable
     {
         private readonly ITaskRepository _taskRepository;
         private readonly IEventDispatcherService _eventDispatcherService;
@@ -29,6 +30,9 @@ namespace Code.Model.UseCases.CreateTask
 
             // Guardar en Firestore
             _firebaseStoreService.Save(taskEntity);
+        }
+        public void Dispose()
+        {
         }
     }
 }
